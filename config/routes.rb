@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  scope module: :public do
+    get 'items/index'
+    get 'items/show'
+  end
   root to: 'public/homes#top'
   get '/adout' => 'public/homes#about'
   
@@ -7,6 +11,6 @@ Rails.application.routes.draw do
     sessions: 'public/sessions'
   }
    devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
-    sessions:      'admin/sessions',
+    sessions:      'admin/sessions'
   }
 end
