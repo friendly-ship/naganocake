@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
- devise_for :admins, controllers: {
-  sessions:      'admins/sessions',
-  passwords:     'admins/passwords',
-  registrations: 'admins/registrations'
-}
-devise_for :customers, controllers: {
-  sessions:      'customers/sessions',
-  passwords:     'customers/passwords',
-  registrations: 'customers/registrations'
-}
+  root to: 'public/homes#top'
+  get '/adout' => 'public/homes#about'
+  
+  devise_for :customers,skip: [:passwords], controllers: {
+    registrations: 'public/registrations',
+    sessions: 'public/sessions'
+  }
+   devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
+    sessions:      'admin/sessions',
+  }
 end
