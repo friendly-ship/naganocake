@@ -1,0 +1,22 @@
+<div class="container takasa">
+  <div class="row">
+    <div class="thanks-image" style="text-align: center;">
+      <%= link_to public_items_path do %>
+        <%= image_tag 'thanks.png' %>
+      <% end %>
+    </div>
+  <div class="row" style="text-align: center;">
+    <h5>
+      ご購入いただきありがとうございました。<br>
+      このページは5秒後に自動でトップページへ移動します。<br>
+      ※もし自動で移動しない場合は画像をクリックしてください。
+    </h5>
+    <!-- 購入後、この画面表示から5秒後にトップページへ自動遷移 -->
+    <script language="JavaScript">
+      setTimeout(function(){
+        location.href="/";
+      },5000);
+    </script>
+    <!--  -->
+  </div>
+</div>
