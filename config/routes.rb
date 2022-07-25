@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  namespace :public do
+  namespace :admin do
+    resources :genres, only: [:index, :create, :edit, :update]
     get 'orders/new'
     get 'orders/confirm'
     get 'orders/complete'
@@ -9,6 +10,7 @@ Rails.application.routes.draw do
     get 'orders/show'
   end
   namespace :public do
+    resources :genres, only: [:show]
     get 'addresses/index'
     get 'addresses/edit'
     get 'addresses/create'
