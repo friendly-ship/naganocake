@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2022_07_24_060712) do
+ActiveRecord::Schema.define(version: 2022_07_25_044106) do
 
   create_table "addresses", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
@@ -38,6 +37,13 @@ create_table "genres", force: :cascade do |t|
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "customers", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    
   create_table "order_details", force: :cascade do |t|
     t.integer "order_id"
     t.integer "item_id"
@@ -48,6 +54,22 @@ create_table "genres", force: :cascade do |t|
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "genres", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "genre_id"
+    t.string "name"
+    t.string "image_id"
+    t.text "introduction"
+    t.integer "price"
+    t.boolean "is_active"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
