@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   namespace :public do
     get 'orders/new'
     get 'orders/confirm'
