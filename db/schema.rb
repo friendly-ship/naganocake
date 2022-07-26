@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2022_07_24_060712) do
 
   create_table "genres", force: :cascade do |t|
     t.string "name"
+    t.boolean "is_genres_status", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

@@ -4,7 +4,7 @@
     <h2>ジャンル追加・一覧</h2><br>
     
   <div class="form-group col-md-10">
-  <%= form_for(@genre, url: admin_genre_path) do |f| %>
+  <%= form_for(@genre, url: admin_genres_path) do |f| %>
     
         <%= f.label :ジャンル %>
         <%= f.text_field :name,class: "col-md-4" %>
@@ -39,7 +39,7 @@
               無効
               <% end %>
             </td>
-            <td><%= limk_to "編集する", edit_admin_genre_path(genre), class: "btn btn-primary" %></td>
+            <td><%= link_to "編集する", edit_admin_genre_path(genre), class: "btn btn-primary" %></td>
           </tr>
         <% end %>
       </tbody>
