@@ -1,13 +1,8 @@
 <div class="container takasa">
   <strong><%= notice %></strong>
   <div class="row">
-    <!-- ジャンル検索サイドバー / パーシャル表示 -->
-  	<%= render "public/shared/sidebar", genres: @genres %>
-
     <div class="col-xs-9">
-      <!-- 画像背景 -->
   		<div class="bg_top">
-        <!-- 白背景/サイト説明文 -->
   			<div class="bg_top2">
   			  <p class="font-text">
   			  	ようこそ、NaganoCakeへ！<br>
@@ -17,7 +12,6 @@
           </p>
   			</div>
   		</div>
-      <!-- オススメ商品表示 -->
       <br>
   		<h4 class="recommendation"><i class="fas fa-crown"></i> オススメ商品 <i class="fas fa-crown"></i></h4><br>
   		<div class="row">
@@ -26,11 +20,11 @@
         <div id="multiple-items">
         <% @items.each do |item| %>
           <div class="recommendation-items">
-            <%= link_to public_item_path(item.id) do %> <!-- 画像をクリックしたら商品詳細画面へ遷移 -->
+            <%= link_to public_item_path(item.id) do %>
               <%= attachment_image_tag item, :image, size: "150x150",  fallback: "no_image.jpg"%><br>
             <% end %>
             <p><%= item.item_name %></p>
-            <p>¥<%= (item.unit_price_without_tax*1.1).floor %></p> <!-- 税込計算式/.floor => 浮動小数点数の切り捨てを行うためFloatクラスのfloorメソッドを使用 -->
+            <p>¥<%= (item.unit_price_without_tax*1.1).floor %></p>
           </div>
         <% end %>
 　　　　　</div>

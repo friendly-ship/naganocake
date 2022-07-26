@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
 
+  namespace :public do
+    get 'cart_items/index'
+  end
+  get 'cart_items/index'
  root 'public/homes#top'
-    devise_for :members, controllers: {
-    sessions:      'members/sessions',
-    passwords:     'members/passwords',
-    registrations: 'members/registrations'
+    devise_for :customers, controllers: {
+    sessions:      'public/sessions',
+    passwords:     'public/passwords',
+    registrations: 'public/registrations'
     }
 
     devise_for :admins, controllers: {
@@ -33,10 +37,10 @@ Rails.application.routes.draw do
     get '/orders/confirm' => 'orders#confirm'
     post '/orders/confirm' => 'orders#confirm'
     get '/orders/thanks' => 'orders#thanks'
-    patch '/members/withdrawal' => 'members#destroy'
-    get '/members/withdrawal' => 'members#withdrawal'
+    patch '/customers/withdrawal' => 'customers#destroy'
+    get '/customers/withdrawal' => 'customers#withdrawal'
     resources :orders, only:[:new,:create,:index,:show]
-    resource :members, only:[:show ,:edit,:update]
+    resource :customers, only:[:show ,:edit,:update]
     resources :addresses, only:[:index, :edit, :destroy, :create, :update]
   end
 end
