@@ -17,13 +17,13 @@
 <!-- 自身の住所  -->
 
         <label style="margin-left: 60px;"><%= f.radio_button :address_number,1,checked: "checked" %> ご自身の住所 </label><br>
-        <div style="margin-left:70px;"><%= current_member.postal_code %> <%= current_member.address %><br><%= current_member.last_name %><%= current_member.first_name %></div><br><br>
+        <div style="margin-left:70px;"><%= current_customer.postal_code %> <%= current_customer.address %><br><%= current_customer.last_name %><%= current_customer.first_name %></div><br><br>
 <!-- end -->
 
 <!-- 登録済住所 -->
         <div>
           <label style="margin-left: 60px;"><%= f.radio_button :address_number ,2%> 登録済からの選択</label><br>
-          <div style="margin-left:80px; padding:0 100px;"><%= f.collection_select(:address, current_member.addresses.all, :id, :address_all)%><br><br>
+          <div style="margin-left:80px; padding:0 100px;"><%= f.collection_select(:address, current_customer.addresses.all, :id, :address_all)%><br><br>
           </div>
         </div>
 <!-- end -->
@@ -60,7 +60,7 @@
       <%= image_tag 'orei_inu.png', size:"150x200", style:"padding-bottom: 8px;"%>
       </div>
       <div class="messages_text" style="text-align:center; display:inline-block;">
-          <h4><%= @member.last_name %><%= @member.first_name %>様<br>
+          <h4><%= @customer.last_name %><%= @customer.first_name %>様<br>
           沢山の商品をお買い上げ頂き<br>誠にありがとうございます。</h4>
         </div>
       <div class="orei_cat" style="display:inline-block;">

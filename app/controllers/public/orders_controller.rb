@@ -1,10 +1,10 @@
 class Public::OrdersController < ApplicationController
- before_action :authenticate_member!
+ before_action :authenticate_customer!
   before_action :request_post?, only: [:confirm]
   before_action :order_new?, only: [:new]
 
   def index
-    @orders = current_member.orders
+    @orders = current_customer.orders
   end
 
   def show
@@ -14,8 +14,8 @@ class Public::OrdersController < ApplicationController
   end
 
   def new
-    @member = current_member
-    @i = current_member.cart_items
+    @customer = current_customer
+    @i = current_customer.cart_items
     @all = Item.all
     @i.each do |item|
       @all = @all.where.not(id: item.item_id)
@@ -31,9 +31,9 @@ class Public::OrdersController < ApplicationController
     @order = Order.new(order_params) 
 
     if params[:order][:address_number] == "1" 
-      @order.postal_code = current_member.postal_code 
-      @order.address = current_member.address 
-      @order.name = current_member.last_name+current_member.first_name 
+      @order.postal_code = current_customer.postal_code 
+      @order.address = current_customer.address 
+      @order.name = current_customer.last_name+current_customer.first_name 
 
     elsif  params[:order][:address_number] ==  "2" 
       @order.postal_code = Address.find(params[:order][:address]).postal_code 
@@ -44,7 +44,7 @@ class Public::OrdersController < ApplicationController
       @address.shipping_address = params[:order][:shipping_address] 
       @address.name = params[:order][:name] 
       @address.postal_code = params[:order][:postal_code]
-      @address.member_id = current_member.id 
+      @address.customer_id = current_customer.id 
       if @address.save 
       @order.postal_code = @address.postal_code 
       @order.name = @address.name 
@@ -54,7 +54,7 @@ class Public::OrdersController < ApplicationController
        end
   end
 
-    @cart_items = CartItem.where(member_id: current_member.id) 
+    @cart_items = CartItem.where(customer_id: current_customer.id) 
     @total = 0 
   end
 
@@ -65,10 +65,10 @@ class Public::OrdersController < ApplicationController
 
   def create
     @order = Order.new(order_params) 
-    @order.member_id = current_member.id 
+    @order.customer_id = current_customer.id 
     @order.save 
 
-current_member.cart_items.each do |cart_item| 
+current_customer.cart_items.each do |cart_item| 
   @order_item = OrderItem.new 
   @order_item.item_id = cart_item.item_id 
   @order_item.number_of_items = cart_item.number_of_items
@@ -77,7 +77,7 @@ current_member.cart_items.each do |cart_item|
   @order_item.save 
 end 
 
-    current_member.cart_items.destroy_all 
+    current_customer.cart_items.destroy_all 
     redirect_to public_orders_thanks_path 
 
 end
@@ -85,7 +85,7 @@ end
   private
 
   def order_new?
-    redirect_to public_cart_items_path, notice: "カートに商品を入れてください。" if current_member.cart_items.blank?
+    redirect_to public_cart_items_path, notice: "カートに商品を入れてください。" if current_customer.cart_items.blank?
   end
 
   def request_post?
@@ -97,7 +97,7 @@ end
   end
 
   def address_params
-    params.permit(:shipping_address, :name, :postal_code, :member_id)
+    params.permit(:shipping_address, :name, :postal_code, :customer_id)
   end
 
 end

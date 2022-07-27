@@ -1,13 +1,13 @@
 class Public::AddressesController < ApplicationController
-	before_action :authenticate_member!
+	before_action :authenticate_customer!
   def index
-  	@addresses = current_member.addresses.page(params[:page]).per(3) # ページネーションの追加/3件ごとにページ作成
+  	@addresses = current_customer.addresses.page(params[:page]).per(3) # ページネーションの追加/3件ごとにページ作成
   	@address = Address.new
   end
 
   def create
   	@address = Address.new(address_params)
-  	@address.member_id = current_member.id
+  	@address.customer_id = current_customer.id
   	@address.save
   	redirect_to public_addresses_path
   end
@@ -30,6 +30,6 @@ class Public::AddressesController < ApplicationController
 
   private
   def address_params
-  	params.require(:address).permit(:name, :member_id, :shipping_address, :postal_code)
+  	params.require(:address).permit(:name, :customer_id, :shipping_address, :postal_code)
   end
 end
