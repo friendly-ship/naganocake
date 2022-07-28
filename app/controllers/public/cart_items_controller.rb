@@ -10,8 +10,8 @@ before_action :authenticate_customer!
 	if current_customer.cart_items.count >= 1
 	  if nil != current_customer.cart_items.find_by(item_id: params[:cart_item][:item_id])
 		   @cart_item_u = current_customer.cart_items.find_by(item_id: params[:cart_item][:item_id])
-		   @cart_item_u.number_of_items += params[:cart_item][:number_of_items].to_i
-		   @cart_item_u.update(number_of_items: @cart_item_u.number_of_items)
+		   @cart_item_u.amount += params[:cart_item][:amount].to_i
+		   @cart_item_u.update(amount: @cart_item_u.amount)
 		   redirect_to public_cart_items_path
 		 else
 			 	@cart_item = CartItem.new(cart_item_params)
@@ -21,7 +21,7 @@ before_action :authenticate_customer!
 		  else
 				@items = Item.where(sale_status: 0).page(params[:page]).per(8)
 		    @quantity = Item.count
-		    @genres = Genre.where(valid_invalid_status: 0)
+		    @genres = Genre.all
 				render 'index'
        end
 	 end
@@ -34,7 +34,7 @@ before_action :authenticate_customer!
 		else
 			@items = Item.where(sale_status: 0).page(params[:page]).per(8)
 	    @quantity = Item.count
-	    @genres = Genre.where(valid_invalid_status: 0)
+	    @genres = Genre.all
 			render 'index'
 		end
 	end
@@ -61,10 +61,10 @@ end
 	private
 
 	def cart_item_item?
-		redirect_to public_item_path(params[:cart_item][:item_id]), notice: "個数を入力してください。" if params[:cart_item][:number_of_items].empty?
+		redirect_to public_item_path(params[:cart_item][:item_id]), notice: "個数を入力してください。" if params[:cart_item][:amount].empty?
 	end
 
 	def cart_item_params
-		params.require(:cart_item).permit(:item_id, :number_of_items,:customer_id)
+		params.require(:cart_item).permit(:item_id, :amount,:customer_id)
 	end
 end

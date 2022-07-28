@@ -34,9 +34,9 @@
 					<tr>
 						<td><%= order_item.item.item_name %></td>
 						<td><%= order_item.items_tax_included_price %></td>
-						<td><%= order_item.number_of_items %></td>
-						<td><%= (order_item.items_tax_included_price*order_item.number_of_items) %>
-							<% @total += (order_item.items_tax_included_price*order_item.number_of_items) %>
+						<td><%= order_item.amount %></td>
+						<td><%= (order_item.items_tax_included_price*order_item.amount) %>
+							<% @total += (order_item.items_tax_included_price*order_item.amount) %>
 						</td>
 					</tr>
 					<% end %>

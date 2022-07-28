@@ -33,29 +33,35 @@ class Public::OrdersController < ApplicationController
     if params[:order][:address_number] == "1" 
       @order.postal_code = current_customer.postal_code 
       @order.address = current_customer.address 
-      @order.name = current_customer.last_name+current_customer.first_name 
-
+      @order.name = current_customer.last_name.to_s + current_customer.first_name.to_s 
+        @cart_items = CartItem.where(customer_id: current_customer.id) 
+        @total = 0 
+        render 'confirm'
     elsif  params[:order][:address_number] ==  "2" 
       @order.postal_code = Address.find(params[:order][:address]).postal_code 
-      @order.address = Address.find(params[:order][:address]).shipping_address 
+      @order.address = Address.find(params[:order][:address]).address 
       @order.name = Address.find(params[:order][:address]).name 
+      @cart_items = CartItem.where(customer_id: current_customer.id) 
+        @total = 0 
+        render 'confirm'
     elsif params[:order][:address_number] ==  "3" 
       @address = Address.new() 
-      @address.shipping_address = params[:order][:shipping_address] 
+      @address.name = params[:order][:name] 
       @address.name = params[:order][:name] 
       @address.postal_code = params[:order][:postal_code]
       @address.customer_id = current_customer.id 
       if @address.save 
       @order.postal_code = @address.postal_code 
       @order.name = @address.name 
-      @order.address = @address.shipping_address 
+      @order.address = @address.address 
       else
-       render 'new'
-       end
+        @cart_items = CartItem.where(customer_id: current_customer.id) 
+        @total = 0 
+        render 'confirm'
+      end
   end
 
-    @cart_items = CartItem.where(customer_id: current_customer.id) 
-    @total = 0 
+    
   end
 
 
@@ -68,14 +74,14 @@ class Public::OrdersController < ApplicationController
     @order.customer_id = current_customer.id 
     @order.save 
 
-current_customer.cart_items.each do |cart_item| 
-  @order_item = OrderItem.new 
-  @order_item.item_id = cart_item.item_id 
-  @order_item.number_of_items = cart_item.number_of_items
-  @order_item.items_tax_included_price = (cart_item.item.unit_price_without_tax*1.1).floor 
-  @order_item.order_id =  @order.id 
-  @order_item.save 
-end 
+    current_customer.cart_items.each do |cart_item| 
+      @order_item = OrderDetail.new 
+      @order_item.item_id = cart_item.item_id 
+      @order_item.amount = cart_item.amount
+      @order_item.price = (cart_item.item.price*1.1).floor 
+      @order_item.order_id =  @order.id 
+      @order_item.save 
+    end 
 
     current_customer.cart_items.destroy_all 
     redirect_to public_orders_thanks_path 
@@ -93,11 +99,11 @@ end
   end
 
   def order_params
-    params.require(:order).permit(:payment_method, :address, :postage, :postal_code, :name, :total_fee, :addre)
+    params.require(:order).permit(:payment_method, :address, :shipping_cost, :postal_code, :shipping_name, :total_payment)
   end
 
   def address_params
-    params.permit(:shipping_address, :name, :postal_code, :customer_id)
+    params.permit(:address, :name, :postal_code, :customer_id)
   end
 
 end

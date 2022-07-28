@@ -8,29 +8,21 @@
       <%= form_with(model: @order, local: true, url: public_orders_confirm_path, method: :post) do |f| %>
       <div class="field row" style="margin-left:20px; ">
         <h4><strong>支払い方法</strong></h4>
-    <!-- ラジオボタンの記述 -->
         <label style="margin-left: 60px;"><%= f.radio_button :payment_method, 1, checked: "checked"%> クレジットカード </label><br>
         <label style="margin-left: 60px;"><%= f.radio_button :payment_method, 0 %> 銀行振込</label>
 
         <h4><strong>お届け先</strong></h4>
 
-<!-- 自身の住所  -->
 
         <label style="margin-left: 60px;"><%= f.radio_button :address_number,1,checked: "checked" %> ご自身の住所 </label><br>
         <div style="margin-left:70px;"><%= current_customer.postal_code %> <%= current_customer.address %><br><%= current_customer.last_name %><%= current_customer.first_name %></div><br><br>
-<!-- end -->
 
-<!-- 登録済住所 -->
         <div>
           <label style="margin-left: 60px;"><%= f.radio_button :address_number ,2%> 登録済からの選択</label><br>
           <div style="margin-left:80px; padding:0 100px;"><%= f.collection_select(:address, current_customer.addresses.all, :id, :address_all)%><br><br>
           </div>
         </div>
-<!-- end -->
 
-
-
-<!-- 新規届け先 -->
         <label style="margin-left: 60px;"><%= f.radio_button :address_number,3 %> 新しいお届け先</label><br>
         <div style="display: flex; margin-left:15% ;">
           <div  style="display: flex flex-direction: column;  flex-wrap: wrap;  width: 60px;">
@@ -40,11 +32,11 @@
           </div>
           <div style=" margin-left:20px; ">
             <%= f.text_field :postal_code  %><br><br>
-            <%= f.text_field :shipping_address ,size: "60" %><br><br>
+            <%= f.text_field :address ,size: "60" %><br><br>
             <%= f.text_field :name %><br><br>
            <%= f.submit "確認画面に進む", class: "btn btn-primary text-cenrer" %>
           </div>
-      <!-- end -->
+
           <% end %>
         </div>
       </div>
@@ -74,8 +66,8 @@
           <div class="items" style="margin-left: 10px;">
             <% @item_random.each do |item_random| %>
              <%= attachment_image_tag item_random, :image, style:"margin-bottom:15px;", size: "100x100", fallback: "no_image.jpg"%>
-             <%= item_random.item_name %>
-             <%= (item_random.unit_price_without_tax*1.1).floor %>円（税込）
+             <%= item_random.name %>
+             <%= (item_random.price*1.1).floor %>円（税込）
              <%= link_to "商品詳細はこちら", public_item_path(item_random) %><br>
             <% end %>
           </div>

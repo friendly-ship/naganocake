@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 2022_07_27_051636) do
     t.integer "total_payment"
     t.integer "payment_method"
     t.integer "status"
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
